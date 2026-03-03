@@ -8,12 +8,17 @@ import * as winston from 'winston';
 import { loggerFormat } from 'util/format/text-format';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './intercepter/logger.interceptor';
 
 @Module({
   imports: [BarModule, CommonModule,WinstonModule.forRoot({
     transports:[new winston.transports.Console({format:winston.format.combine(winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),loggerFormat)})]
   }), OrderModule,ProductModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,{
+    provide: APP_INTERCEPTOR,
+    useClass: LoggingInterceptor, // 전역 인터셉터로 등록
+  },],
 })
 export class AppModule {}
