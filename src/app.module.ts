@@ -10,11 +10,12 @@ import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './intercepter/logger.interceptor';
+import { DrinkModule } from './drink/drink.module';
 
 @Module({
   imports: [BarModule, CommonModule,WinstonModule.forRoot({
     transports:[new winston.transports.Console({format:winston.format.combine(winston.format.timestamp({format:'YYYY-MM-DD HH:mm:ss'}),loggerFormat)})]
-  }), OrderModule,ProductModule],
+  }), OrderModule,ProductModule, DrinkModule],
   controllers: [AppController],
   providers: [AppService,{
     provide: APP_INTERCEPTOR,
