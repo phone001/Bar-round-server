@@ -4,15 +4,15 @@ import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn,UpdateDateColum
 /**
  * 주문 느낌 매칭 테이블
  */
-@Entity("DRINK_FEELING_MAP")
-export class Drink_Feeling_Map {
+@Entity("DRINK_SCENT_MAP")
+export class Drink_Scent_Map {
     @PrimaryGeneratedColumn({name:'MAP_ID',type:INTEGER})
     mapId: number;
 
     @Column({name:'DRINK_ID',nullable:false,type:INTEGER})
     drinkId:number
 
-    @Column({name:'FEELING_ID',nullable:false,type:INTEGER})
+    @Column({name:'SCENT_ID',nullable:false,type:INTEGER})
     feelingId:string;
 
     @CreateDateColumn({ name: 'CREATED_AT',type:DATETIME })
