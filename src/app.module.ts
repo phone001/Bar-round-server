@@ -9,14 +9,15 @@ import { LoggingInterceptor } from './intercepter/logger.interceptor';
 import { TableModule } from './table/table.module';
 import { DrinkModule } from './drink/drink.module';
 import { FoodModule } from './food/food.module';
-import { LoggerModule } from './modules';
+import { EnvConfigModule, LoggerModule } from './modules';
+import DatabaseConfig from './config/database.config';
 
 @Module({
-  imports: [BarModule, CommonModule,LoggerModule, OrderModule, TableModule, DrinkModule, FoodModule],
+  imports: [BarModule, CommonModule,LoggerModule, OrderModule, TableModule, DrinkModule, FoodModule,EnvConfigModule],
   controllers: [AppController],
   providers: [AppService,{
     provide: APP_INTERCEPTOR,
     useClass: LoggingInterceptor, // 전역 인터셉터로 등록
-  },],
+  },DatabaseConfig],
 })
 export class AppModule {}
