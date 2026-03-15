@@ -5,11 +5,12 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class DrinkService {
-     @InjectRepository(Drink)
-    private readonly drinkRepository: any;
-    constructor() {
-        this.drinkRepository = Repository<Drink>;
-    }
+constructor(
+    // 이 데코레이터와 타입이 정확히 작성되어야 에러가 사라집니다.
+    @InjectRepository(Drink)
+    private readonly drinkRepository: Repository<Drink>, 
+  ) {}
+
     /**
      * 음료 조회
      */
