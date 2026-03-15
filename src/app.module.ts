@@ -11,13 +11,28 @@ import { DrinkModule } from './drink/drink.module';
 import { FoodModule } from './food/food.module';
 import { EnvConfigModule, LoggerModule } from './modules';
 import DatabaseConfig from './config/database.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+
 
 @Module({
-  imports: [BarModule, CommonModule,LoggerModule, OrderModule, TableModule, DrinkModule, FoodModule,EnvConfigModule],
+  imports: [
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConfig,
+    }),
+    BarModule, 
+    CommonModule,
+    LoggerModule, 
+    OrderModule, 
+    TableModule, 
+    DrinkModule, 
+    FoodModule,
+    EnvConfigModule
+  ],
   controllers: [AppController],
   providers: [AppService,{
     provide: APP_INTERCEPTOR,
     useClass: LoggingInterceptor, // 전역 인터셉터로 등록
-  },DatabaseConfig],
+  }],
 })
 export class AppModule {}

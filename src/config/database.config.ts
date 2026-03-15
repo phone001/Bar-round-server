@@ -11,23 +11,25 @@ import { Feeling } from 'src/entities/feeling.entity';
 import { Liquor } from 'src/entities/liquor.entity';
 import { SCENT } from 'src/entities/scent';
 import { Drink_Scent_Map } from 'src/entities/drink_scent_map';
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 
 @Injectable()
-export default class DatabaseConfig{
-    private readonly logger  = new Logger(DatabaseConfig.name);
-    private DBConfig:DataSource
-    constructor(private configService: ConfigService) {
-        this.DBConfig = new DataSource({
-                type: 'mysql',
-                database: this.configService.get('DATABASE_NAME'),
-                host: this.configService.get('HOST'),
-                port: this.configService.get('DB_PORT'),
-                username: this.configService.get('USER_NAME'),
-                password: this.configService.get('PASSWORD') as string,
-                synchronize: true, // 해당 항목이 있어야 테이블이 생성됨, 운영에서는 데이터 손실 방지 위해 false로 설정
-                entities:[Order,Drink_Feeling_Map,Drink,Food,ORDER_DETAIL,Table,Feeling,Liquor,SCENT,Drink_Scent_Map]
-        })
-        this.DBConfig.initialize().then(()=>console.log("데이터 초기화")).catch((e)=>console.error("에러발생",e))
-    }
+export default class DatabaseConfig implements TypeOrmOptionsFactory{
+
+    constructor(private configService: ConfigService) {}
+    // 이 메서드가 반드시 존재해야 하며, DB 설정 객체를 반환해야 합니다.
+  createTypeOrmOptions(): TypeOrmModuleOptions {
+    return {
+      type: 'mysql', // 사용하는 DB 종류
+      host: this.configService.get<string>('DB_HOST', 'localhost'),
+      port: this.configService.get<number>('DB_PORT', 3306),
+      username: this.configService.get<string>('DB_USERNAME', 'root'),
+      password: this.configService.get<string>('DB_PASSWORD', 'password'),
+      database: this.configService.get<string>('DB_DATABASE', 'test_db'),
+      entities: [__dirname + '/../**/*.entity.{js,ts}'],
+      synchronize: this.configService.get<boolean>('DB_SYNC', true), 
+      // 주의: 실제 운영(Production) 환경에서는 synchronize를 무조건 false로 해야 합니다.
+    };
+  }
 }
