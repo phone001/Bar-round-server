@@ -12,11 +12,11 @@ export class ORDER_DETAIL {
     @Column({name:'ORDER_ID',nullable:false,type:INTEGER})
     orderId:number
 
-    @Column({name:'PRODUCT_ID',type:VARCAHR})
-    productId:string;
+    @Column({name:'PRODUCT_ID',type:INTEGER})
+    productId:number;
 
     @Column({name:'QUANTITY',type:INTEGER})
-    quantity:string;
+    quantity:number;
 
     @CreateDateColumn({ name: 'CREATED_AT' })
     createdAt: Date;

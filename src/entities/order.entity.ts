@@ -12,7 +12,7 @@ export class Order {
     @Column({name:'TABLE_ID',nullable:false,type:INTEGER})
     tableId:number
 
-    @Column({name:'PAYMENT_COMPLATED_AT',type:DATETIME})
+    @Column({name:'PAYMENT_COMPLATED_AT',type:DATETIME,default:null})
     paymentComplatedAt:string;
 
     @CreateDateColumn({ name: 'CREATED_AT' })
