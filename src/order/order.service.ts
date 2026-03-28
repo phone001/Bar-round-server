@@ -28,4 +28,11 @@ export class OrderService {
 
         this.orderDetailRepository.save(orderDto.orderItems)
     }
+
+    /**
+     * 주문 조회
+     */
+    async getOrders(tableId:number):Promise<OrderDomain[]> {
+        return await this.orderRepository.find({where:{tableId}});
+    }
 }
